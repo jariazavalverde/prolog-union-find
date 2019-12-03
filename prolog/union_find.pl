@@ -12,7 +12,7 @@
 
 :- module(union_find, [
 	union_find/2,
-	make_set/3,
+	make_set/2,
 	union/3,
 	find/3,
 	find/4
@@ -58,8 +58,8 @@ make_set(UF0, UF1) :-
 % If the roots are distinct, the trees are combined by attaching the root of one to the root of the other.
 % This predicate succeeds attaching the shorter tree (by rank) to the root of the taller tree in +UnionFind.
 union(UF, I, J) :-
-	find_with_rank(UF, I, X, RankI),
-	find_with_rank(UF, J, Y, RankJ),
+	find(UF, I, X, RankI),
+	find(UF, J, Y, RankJ),
 	(X \== Y ->
 		(RankI < RankJ -> setarg(X, UF, Y-RankI) ; 
 			(RankI > RankJ -> setarg(Y, UF, X-RankJ) ; 
