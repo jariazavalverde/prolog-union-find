@@ -15,7 +15,8 @@
 	make_set/2,
 	union/3,
 	find/3,
-	find/4
+	find/4,
+	disjoint_sets/2
 ]).
 
 % union_find/2
@@ -85,3 +86,10 @@ find(UF, I, X) :-
 find(UF, I, X, S) :-
 	arg(I, UF, J-R),
 	(I == J -> X = J, S = R ; find(UF, J, X, S), nb_setarg(I, UF, X-R)).
+
+% disjoint_sets/2
+% disjoint_sets(+UnionFind, ?Sets).
+%
+% This predicate succeeds when ?Sets is the list of disjoint sets on the +UnionFind structure.
+disjoint_sets(UF, Sets) :-
+	findall(Set, bagof(I, find(UF, I, _), Set), Sets).
