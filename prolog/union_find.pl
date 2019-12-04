@@ -90,7 +90,7 @@ union_all(UF, [X,Y|Xs]) :-
 % whenever find/3 is used on it.
 find(UF, I, X) :-
 	arg(I, UF, J-R),
-	(I == J -> X = J ; find(UF, J, X), nb_setarg(I, UF, X-R)).
+	(I == J -> X = J ; find(UF, J, X), setarg(I, UF, X-R)).
 
 % find/4
 % find(+UnionFind, ?Element, ?Root, ?Rank)
@@ -98,7 +98,7 @@ find(UF, I, X) :-
 % Same as find/3, but returning also the ?Rank of the ?Root.
 find(UF, I, X, S) :-
 	arg(I, UF, J-R),
-	(I == J -> X = J, S = R ; find(UF, J, X, S), nb_setarg(I, UF, X-R)).
+	(I == J -> X = J, S = R ; find(UF, J, X, S), setarg(I, UF, X-R)).
 
 % disjoint_sets/2
 % disjoint_sets(+UnionFind, ?Sets).
