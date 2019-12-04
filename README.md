@@ -121,6 +121,22 @@ This predicate succeeds joining all the elements of the list `+Elements` in the 
 
 #### Querying union-find structures (assoc)
 
+```prolog
+find_assoc(+UnionFindIn, ?Element, ?Root, ?UnionFindOut)
+```
+This predicate follows the chain of parent pointers from ?Element up the tree until it reaches a ?Root element, whose parent is itself. `?Root` is the representative member of the set to which `?Element` belongs, and may be
+`?Element` itself. Path compression flattens the structure of the tree by making every node point to the root whenever `find_assoc/4` is used on it.
+
+```prolog
+find_assoc(+UnionFindIn, ?Element, ?Root, ?Rank, ?UnionFindOut)
+```
+Same as `find_assoc/4`, but returning also the `?Rank` of the `?Root`.
+
+```prolog
+disjoint_sets(+UnionFind, ?Sets).
+```
+This predicate succeeds when `?Sets` is the list of disjoint sets on the `+UnionFind` structure.
+
 
 ## License
 
