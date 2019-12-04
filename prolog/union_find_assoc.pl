@@ -78,26 +78,26 @@ union_all_assoc(UF0, [X,Y|Xs], UF2) :-
 	union_all_assoc(UF1, [Y|Xs], UF2).
 
 % find_assoc/4
-% find_assoc(+UnionFindIn, ?Element, ?Root, ?UnionFindOut)
+% find_assoc(+UnionFindIn, +Element, ?Root, ?UnionFindOut)
 %
-% This predicate follows the chain of parent pointers from ?Element up the tree until it reaches a ?Root element,
+% This predicate follows the chain of parent pointers from +Element up the tree until it reaches a ?Root element,
 % whose parent is itself. ?Root is the representative member of the set to which ?Element belongs, and may be
-% ?Element itself. Path compression flattens the structure of the tree by making every node point to the root
+% +Element itself. Path compression flattens the structure of the tree by making every node point to the root
 % whenever find_assoc/4 is used on it.
 find_assoc(UF0, I, X, UF1) :-
 	get_assoc(I, UF0, J-R),
 	(I == J -> X = J, UF1 = UF0 ; find_assoc(UF0, J, X, UF2), put_assoc(I, UF2, X-R, UF1)).
 
 % find_assoc/5
-% find_assoc(+UnionFindIn, ?Element, ?Root, ?Rank, ?UnionFindOut)
+% find_assoc(+UnionFindIn, +Element, ?Root, ?Rank, ?UnionFindOut)
 %
 % Same as find_assoc/4, but returning also the ?Rank of the ?Root.
 find_assoc(UF0, I, X, S, UF1) :-
 	get_assoc(I, UF0, J-R),
 	(I == J -> X = J, S = R, UF1 = UF0 ; find_assoc(UF0, J, X, S, UF2), put_assoc(I, UF2, X-R, UF1)).
 
-% disjoint_sets/2
-% disjoint_sets(+UnionFind, ?Sets).
+% disjoint_sets_assoc/2
+% disjoint_sets_assoc(+UnionFind, ?Sets).
 %
 % This predicate succeeds when ?Sets is the list of disjoint sets on the +UnionFind structure.
 disjoint_sets_assoc(UF, Sets) :-

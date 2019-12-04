@@ -122,21 +122,52 @@ This predicate succeeds joining all the elements of the list `+Elements` in the 
 #### Querying union-find structures (assoc)
 
 ```prolog
-find_assoc(+UnionFindIn, ?Element, ?Root, ?UnionFindOut)
+find_assoc(+UnionFindIn, +Element, ?Root, ?UnionFindOut)
 ```
-This predicate follows the chain of parent pointers from ?Element up the tree until it reaches a ?Root element, whose parent is itself. `?Root` is the representative member of the set to which `?Element` belongs, and may be
-`?Element` itself. Path compression flattens the structure of the tree by making every node point to the root whenever `find_assoc/4` is used on it.
+This predicate follows the chain of parent pointers from ?Element up the tree until it reaches a ?Root element, whose parent is itself. `?Root` is the representative member of the set to which `+Element` belongs, and may be
+`+Element` itself. Path compression flattens the structure of the tree by making every node point to the root whenever `find_assoc/4` is used on it.
 
 ```prolog
-find_assoc(+UnionFindIn, ?Element, ?Root, ?Rank, ?UnionFindOut)
+find_assoc(+UnionFindIn, +Element, ?Root, ?Rank, ?UnionFindOut)
 ```
 Same as `find_assoc/4`, but returning also the `?Rank` of the `?Root`.
 
 ```prolog
-disjoint_sets(+UnionFind, ?Sets).
+disjoint_sets_assoc(+UnionFind, ?Sets).
 ```
 This predicate succeeds when `?Sets` is the list of disjoint sets on the `+UnionFind` structure.
 
+
+## Example
+
+**Kruskal's algorithm** is a minimum-spanning-tree algorithm which finds an edge of the least possible weight that connects any two trees in the forest. It is a greedy algorithm in graph theory as it finds a minimum spanning tree for a connected weighted graph adding increasing cost arcs at each step.
+
+```prolog
+:- use_module(library(union_find_assoc)).
+
+kruskal(g(Vertices-Edges), g(Vertices-Tree)) :-
+	union_find_assoc(UF, Vertices),
+	keysort(Edges, Sorted),
+	kruskal(UF, Sorted, Tree).
+
+kruskal(_, [], []).
+kruskal(UF0, [Edge|Edges], [Edge|Tree]) :-
+	Edge = _-(V1, V2),
+	find_assoc(UF0, V1, R1, UF1),
+	find_assoc(UF1, V2, R2, UF2),
+	R1 \== R2, !,
+	union_assoc(UF2, V1, V2, UF3),
+	kruskal(UF3, Edges, Tree).
+kruskal(UF, [_|Edges], Tree) :-
+	kruskal(UF, Edges, Tree).
+```
+
+![Kruskal's algorithm](https://raw.githubusercontent.com/jariazavalverde/prolog-union-find/master/sample/kruskal.png)
+
+```prolog
+?- kruskal(g([a,b,c,d,e,f,g]-[7-(a,b), 5-(a,d), 8-(b,c), 7-(b,e), 9-(b,d), 5-(c,e), 15-(d,e), 6-(d,f), 8-(e,f), 9-(e,g), 11-(f,g)]), Tree).
+% Tree = g([a,b,c,d,e,f,g]-[5-(a,d),5-(c,e),6-(d,f),7-(a,b),7-(b,e),9-(e,g)]).
+```
 
 ## License
 
