@@ -17,7 +17,8 @@ A union-find data structure is a data structure that tracks a set of elements pa
 
 * **union_find/2** - initializes a new union-find structure with `n` elements.
 * **make_set/2** - adds a new element to a union-find structure.
-* **union/3** - merges two sets in a union-find structure.
+* **union/3** - merges two sets of a union-find structure.
+* **union_all/2** - merges a list of sets of a union-find structure.
 * **find/3** - finds the root of an element in a union-find structure.
 * **find/4** - finds the root and the rank of an element in a union-find structure.
 * **disjoint_sets/2** - gets a list of disjoint sets of a union-find structure.

@@ -4,7 +4,7 @@
   * DESCRIPTION: This module contains predicates for manipulating union-find structures.
   * AUTHORS: José Antonio Riaza Valverde <riaza.valverde@gmail.com>
   * GITHUB: https://github.com/jariazavalverde/prolog-union-find
-  * UPDATED: 03.12.2019
+  * UPDATED: 04.12.2019
   * 
   **/
 
@@ -14,6 +14,7 @@
 	union_find/2,
 	make_set/2,
 	union/3,
+	union_all/2,
 	find/3,
 	find/4,
 	disjoint_sets/2
@@ -44,11 +45,11 @@ union_find(I, N, [I-0|UF]) :-
 %
 % This predicate makes a new set by creating a new element with a unique id, a rank of 0, and a parent pointer
 % to itself. The parent pointer to itself indicates that the element is the representative member of its own set.
-% make_set/2 takes O(n) time. It is 
+% make_set/2 takes O(n) time.
 make_set(UF0, UF1) :-
-	UF0 =.. [union_find|Args0],
-	length(Args0, N),
+	functor(UF0, union_find, N),
 	succ(N, M),
+	UF0 =.. [union_find|Args0],
 	append(Args0, [M-0], Args1),
 	UF1 =.. [union_find|Args1].
 
@@ -67,6 +68,16 @@ union(UF, I, J) :-
 				setarg(Y, UF, X-RankJ),
 				succ(RankI, SrankI),
 				setarg(X, UF, X-SrankI))) ; true).
+
+% union_all/2
+% union(+UnionFind, +Elements)
+%
+% This predicate succeeds joining all the elements +Elements in the union-find structure +UnionFind.
+union_all(_, []).
+union_all(_, [_]).
+union_all(UF, [X,Y|Xs]) :-
+	union(UF, X, Y),
+	union_all(UF, [Y|Xs]).
 
 % find/3
 % find(+UnionFind, ?Element, ?Root)
