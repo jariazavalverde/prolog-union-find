@@ -3,6 +3,11 @@
 
 A union-find data structure is a data structure that tracks a set of elements partitioned into a number of disjoint (non-overlapping) subsets. It provides near-constant-time operations to add new sets, to merge existing sets, and to determine whether elements are in the same set.
 
+This library provides an implementation of the union-find algorithm with the following features:
+
+* **Path compression**: Path compression flattens the structure of the tree by making every node point to the root whenever a find predicate is used on it.
+* **Union by rank**: Union predicates always attach the shorter tree to the root of the taller tree. Thus, the resulting tree is no taller than the originals unless they were of equal height, in which case the resulting tree is taller by one node.
+
 ## Installation (SWI-Prolog)
 
 ```prolog
@@ -35,7 +40,7 @@ Note that `find/[3-4]` predicates perform destructive assignments for **path com
 :- use_module(library(union_find_assoc)).
 ```
 
-This module uses association lists for the representation of union-find structures, where each value is a pair `Root-Rank`. For instance, the term `t(b, a-0, -, t(a, a-1, -, t, t), t(c, c-0, -, t, t))` represents a union-find structure with disjoint sets `[a, b]` and `[c]`. The [association lists library](https://www.swi-prolog.org/pldoc/man?section=assoc) provides methods for creating, queriying and modifiying association lists in `O(log(n))` worst-case time.
+This module uses association lists for the representation of union-find structures, where each value is a pair `Root-Rank`. For instance, the term `t(b, a-0, -, t(a, a-1, -, t, t), t(c, c-0, -, t, t))` represents a union-find structure with disjoint sets `[a, b]` and `[c]`. The [association lists library](https://www.swi-prolog.org/pldoc/man?section=assoc) provides methods for creating, querying and modifying association lists in `O(log(n))` worst-case time.
 
 Note that `find_assoc/[4-5]` predicates also produce new union-find structures for **path compression**, that flattens the structure of the tree by making every node point to the root whenever `find_assoc/[4-5]` are used on it.
 
