@@ -58,7 +58,7 @@ make_set(UF0, UF1) :-
 % union/3
 % union(+UnionFind, +Element1, +Element2)
 %
-% This predicate uses find_with_rank/3 to determine the roots of the trees +Element1 and +Element2 belong to.
+% This predicate uses find/4 to determine the roots of the trees +Element1 and +Element2 belong to.
 % If the roots are distinct, the trees are combined by attaching the root of one to the root of the other.
 % This predicate succeeds attaching the shorter tree (by rank) to the root of the taller tree in +UnionFind.
 union(UF, I, J) :-
@@ -72,7 +72,7 @@ union(UF, I, J) :-
 				setarg(X, UF, X-SrankI))) ; true).
 
 % union_all/2
-% union(+UnionFind, +Elements)
+% union_all(+UnionFind, +Elements)
 %
 % This predicate succeeds joining all the elements +Elements in the union-find structure +UnionFind.
 union_all(_, []).
