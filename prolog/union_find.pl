@@ -1,7 +1,7 @@
 /**
   * 
   * FILENAME: union_find.pl
-  * DESCRIPTION: This module contains predicates for manipulating union-find structures.
+  * DESCRIPTION: This module contains predicates for manipulating union-find structures with indices.
   * AUTHORS: José Antonio Riaza Valverde <riaza.valverde@gmail.com>
   * GITHUB: https://github.com/jariazavalverde/prolog-union-find
   * UPDATED: 04.12.2019
@@ -17,8 +17,10 @@
 	union_all/2,
 	find/3,
 	find/4,
-	disjoint_sets/2
+	disjoint_sets/2,
 ]).
+
+
 
 % union_find/2
 % union(?UnionFind, +Size)
@@ -31,7 +33,7 @@ union_find(UF, N) :-
 	UF =.. [union_find|Args].
 
 % union_find/3
-% union(?UnionFind, +LastID, +Size)
+% union_find(+LastID, +Size, ?UnionFind)
 %
 % NOT EXPORTED
 union_find(_, 0, []).
