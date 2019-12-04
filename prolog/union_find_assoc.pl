@@ -25,7 +25,7 @@
 % union_find_assoc/2
 % union_find_assoc(?UnionFind, +Elements)
 %
-% This predicate initializes a new ?UnionFind structure with a list of elements ?Elements as keys.
+% This predicate initializes a new ?UnionFind structure with a list of elements +Elements as keys.
 union_find_assoc(UF, List) :-
 	list_to_set(List, Set),
 	empty_assoc(Assoc),
@@ -44,7 +44,7 @@ union_find_assoc(I, [X|Xs], UF0, UF2) :-
 % make_set_assoc/3
 % make_set_assoc(+UnionFindIn, +Element, ?UnionFindOut)
 %
-% This predicate makes a new set by creating a new element with a unique id, a rank of 0, and a parent pointer
+% This predicate makes a new set by creating a new element with a unique id +Element, a rank of 0, and a parent pointer
 % to itself. The parent pointer to itself indicates that the element is the representative member of its own set.
 make_set_assoc(UF0, X, UF1) :-
 	\+get_assoc(X, UF0, _),
@@ -55,7 +55,7 @@ make_set_assoc(UF0, X, UF1) :-
 %
 % This predicate uses find_assoc/5 to determine the roots of the trees +Element1 and +Element2 belong to.
 % If the roots are distinct, the trees are combined by attaching the root of one to the root of the other.
-% This predicate succeeds attaching the shorter tree (by rank) to the root of the taller tree in +UnionFind.
+% This predicate succeeds attaching the shorter tree (by rank) to the root of the taller tree in +UnionFindIn.
 union_assoc(UF0, I, J, UF1) :-
 	find_assoc(UF0, I, X, RankI, UF2),
 	find_assoc(UF2, J, Y, RankJ, UF3),
@@ -69,8 +69,8 @@ union_assoc(UF0, I, J, UF1) :-
 % union_all_assoc/3
 % union_all_assoc(+UnionFindIn, +Elements, ?UnionFindOut)
 %
-% This predicate succeeds joining all the elements +Elements in the union-find structure +UnionFindIn,
-% producing the union-find structure ?UnionFindOut.
+% This predicate succeeds joining all the elements of the list +Elements in the union-find structure
+% +UnionFindIn, producing the union-find structure ?UnionFindOut.
 union_all_assoc(UF, [], UF).
 union_all_assoc(UF, [_], UF).
 union_all_assoc(UF0, [X,Y|Xs], UF2) :-
